@@ -1,8 +1,8 @@
 import socketIoClient from "socket.io-client";
-import * as readline from "node:readline/promises";
-// import { response } from "express";
 
-let socket = socketIoClient("http://127.0.0.1:8080");
+import * as readline from "node:readline/promises";
+
+let socket = socketIoClient("http://127.0.0.1:8081");
 
 let rl = readline.createInterface({
   input: process.stdin,
@@ -10,16 +10,14 @@ let rl = readline.createInterface({
 });
 
 socket.on("incoming message", (message) => {
-  console.log("\nrecieved a new message: ", message);
-  process.stdout.write('Enter a message and hit "return " to send : ');
-  //   console.log(message);
-  //   socket.emit("greeting", "hello from the client ");
+  console.log("\nnew message recieved : ", message);
+  process.stdout.write("enter a message and press 'enter' to send : ");
 });
 
 async function startApp() {
   while (true) {
     let response = await rl.question(
-      'Enter a message and hit "return " to send : '
+      "enter a message and press 'enter' to send : "
     );
     socket.emit("new message", response);
   }
